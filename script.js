@@ -1,3 +1,7 @@
+// ==================== DEVICE DETECTION ====================
+const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || window.innerWidth <= 768;
+const isTablet = /iPad|Android/i.test(navigator.userAgent) && window.innerWidth > 768 && window.innerWidth <= 1024;
+
 // ==================== LOCOMOTIVE SCROLL - ULTRA OPTIMIZED ====================
 let locoScroll;
 
@@ -5,8 +9,8 @@ function initLocomotiveScroll() {
     locoScroll = new LocomotiveScroll({
         el: document.querySelector('[data-scroll-container]'),
         smooth: true,
-        multiplier: 1.5,
-        lerp: 0.15,
+        multiplier: isMobile ? 1.2 : 1.5,
+        lerp: isMobile ? 0.1 : 0.15,
         class: 'is-reveal',
         reloadOnContextChange: true,
         touchMultiplier: 2.5,
@@ -69,9 +73,14 @@ function initLocomotiveScroll() {
     });
 }
 
-// ==================== CUSTOM CURSOR ====================
+// ==================== CUSTOM CURSOR - DESKTOP ONLY ====================
 class CustomCursor {
     constructor() {
+        // Only initialize on desktop
+        if (isMobile || isTablet) {
+            return;
+        }
+
         this.dot = document.querySelector('.cursor-dot');
         this.outline = document.querySelector('.cursor-outline');
         this.trail = document.querySelector('.cursor-trail');
@@ -195,7 +204,7 @@ class LoadingScreen {
     }
 }
 
-// ==================== THREE.JS 3D HELMET SCENE - FIXED ====================
+// ==================== THREE.JS 3D HELMET SCENE - MOBILE OPTIMIZED ====================
 class ThreeScene {
     constructor() {
         this.scene = null;
@@ -207,10 +216,9 @@ class ThreeScene {
         this.mouse = { x: 0, y: 0 };
         this.targetMouse = { x: 0, y: 0 };
         
-        if (window.innerWidth > 768) {
-            this.init();
-            window.threeScene = this;
-        }
+        // Always initialize, but with different settings for mobile
+        this.init();
+        window.threeScene = this;
     }
     
     init() {
@@ -218,35 +226,45 @@ class ThreeScene {
         this.scene = new THREE.Scene();
         this.scene.fog = new THREE.Fog(0x0a0a0f, 10, 50);
         
-        // Camera setup
+        // Camera setup - adjusted for mobile
+        const fov = isMobile ? 60 : 50;
         this.camera = new THREE.PerspectiveCamera(
-            50,
+            fov,
             window.innerWidth / window.innerHeight,
             0.1,
             1000
         );
-        this.camera.position.set(8, 2, 10);
+        
+        // Adjust camera position for mobile
+        if (isMobile) {
+            this.camera.position.set(0, 2, 12);
+        } else {
+            this.camera.position.set(8, 2, 10);
+        }
         this.camera.lookAt(0, 0, 0);
         
-        // Renderer setup
+        // Renderer setup - optimized for mobile
         const canvas = document.getElementById('three-canvas');
         this.renderer = new THREE.WebGLRenderer({
             canvas: canvas,
             alpha: true,
-            antialias: window.innerWidth > 1280,
-            powerPreference: "high-performance"
+            antialias: !isMobile, // Disable antialiasing on mobile for performance
+            powerPreference: isMobile ? "default" : "high-performance"
         });
-        this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
+        
+        // Lower pixel ratio on mobile for better performance
+        const pixelRatio = isMobile ? 1 : Math.min(window.devicePixelRatio, 1.5);
+        this.renderer.setPixelRatio(pixelRatio);
         this.renderer.setSize(window.innerWidth, window.innerHeight);
         this.renderer.setClearColor(0x0a0a0f, 0);
         
         // Lights
         this.setupLights();
         
-        // Load helmet with proper GLTFLoader
+        // Load helmet
         this.loadHelmet();
         
-        // Create particles
+        // Create particles - fewer on mobile
         this.createParticles();
         
         // Event listeners
@@ -260,19 +278,18 @@ class ThreeScene {
         const ambientLight = new THREE.AmbientLight(0xffffff, 0.4);
         this.scene.add(ambientLight);
         
-        const light1 = new THREE.PointLight(0x00f0ff, 2.5, 50);
+        const light1 = new THREE.PointLight(0x00f0ff, isMobile ? 2 : 2.5, 50);
         light1.position.set(5, 5, 5);
         this.scene.add(light1);
         
-        const light2 = new THREE.PointLight(0xff0080, 2, 50);
+        const light2 = new THREE.PointLight(0xff0080, isMobile ? 1.5 : 2, 50);
         light2.position.set(-5, 3, -5);
         this.scene.add(light2);
         
-        const light3 = new THREE.PointLight(0xb000ff, 1.5, 30);
+        const light3 = new THREE.PointLight(0xb000ff, isMobile ? 1 : 1.5, 30);
         light3.position.set(0, -2, 5);
         this.scene.add(light3);
         
-        // Add directional light for better visibility
         const dirLight = new THREE.DirectionalLight(0xffffff, 0.5);
         dirLight.position.set(0, 10, 5);
         this.scene.add(dirLight);
@@ -288,7 +305,6 @@ class ThreeScene {
         
         const loader = new THREE.GLTFLoader();
         
-        // Try loading the helmet
         loader.load(
             'https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Models/master/2.0/DamagedHelmet/glTF/DamagedHelmet.gltf',
             (gltf) => {
@@ -307,19 +323,23 @@ class ThreeScene {
     }
     
     setupHelmet() {
-        // Center and scale the helmet
         const box = new THREE.Box3().setFromObject(this.helmet);
         const center = box.getCenter(new THREE.Vector3());
         const size = box.getSize(new THREE.Vector3());
         
         const maxDim = Math.max(size.x, size.y, size.z);
-        const scale = 4 / maxDim; // Larger scale
+        const scale = isMobile ? 3 / maxDim : 4 / maxDim; // Smaller on mobile
         
         this.helmet.scale.setScalar(scale);
         this.helmet.position.sub(center.multiplyScalar(scale));
-        this.helmet.position.set(4, 0, 0);
         
-        // Add glow effect to materials
+        // Center the helmet on mobile
+        if (isMobile) {
+            this.helmet.position.set(0, 0, 0);
+        } else {
+            this.helmet.position.set(4, 0, 0);
+        }
+        
         this.helmet.traverse((child) => {
             if (child.isMesh) {
                 child.material.emissive = new THREE.Color(0x00f0ff);
@@ -329,6 +349,7 @@ class ThreeScene {
             }
         });
         
+        this.helmet.userData.baseScale = scale;
         this.scene.add(this.helmet);
         console.log('Helmet added to scene');
     }
@@ -336,7 +357,6 @@ class ThreeScene {
     createFallbackHelmet() {
         console.log('Creating fallback helmet');
         
-        // Create a cool helmet-like shape
         const helmetGroup = new THREE.Group();
         
         // Main helmet dome
@@ -399,16 +419,24 @@ class ThreeScene {
         vent.rotation.z = Math.PI / 2;
         helmetGroup.add(vent);
         
-        helmetGroup.position.set(4, 0, 0);
-        helmetGroup.scale.set(1.5, 1.5, 1.5);
+        // Position for mobile vs desktop
+        if (isMobile) {
+            helmetGroup.position.set(0, 0, 0);
+            helmetGroup.scale.set(1.2, 1.2, 1.2);
+        } else {
+            helmetGroup.position.set(4, 0, 0);
+            helmetGroup.scale.set(1.5, 1.5, 1.5);
+        }
         
         this.helmet = helmetGroup;
+        this.helmet.userData.baseScale = isMobile ? 1.2 : 1.5;
         this.scene.add(this.helmet);
         console.log('Fallback helmet created');
     }
     
     createParticles() {
-        const particleCount = 400;
+        // Fewer particles on mobile for better performance
+        const particleCount = isMobile ? 150 : 400;
         const positions = new Float32Array(particleCount * 3);
         const colors = new Float32Array(particleCount * 3);
         
@@ -443,7 +471,7 @@ class ThreeScene {
         geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
         
         const material = new THREE.PointsMaterial({
-            size: 0.06,
+            size: isMobile ? 0.08 : 0.06,
             vertexColors: true,
             transparent: true,
             opacity: 0.6,
@@ -455,10 +483,21 @@ class ThreeScene {
     }
     
     addEventListeners() {
-        window.addEventListener('mousemove', (e) => {
-            this.targetMouse.x = (e.clientX / window.innerWidth) * 2 - 1;
-            this.targetMouse.y = -(e.clientY / window.innerHeight) * 2 + 1;
-        });
+        // Mouse/touch events
+        if (isMobile) {
+            // Use touch events on mobile
+            window.addEventListener('touchmove', (e) => {
+                if (e.touches.length > 0) {
+                    this.targetMouse.x = (e.touches[0].clientX / window.innerWidth) * 2 - 1;
+                    this.targetMouse.y = -(e.touches[0].clientY / window.innerHeight) * 2 + 1;
+                }
+            });
+        } else {
+            window.addEventListener('mousemove', (e) => {
+                this.targetMouse.x = (e.clientX / window.innerWidth) * 2 - 1;
+                this.targetMouse.y = -(e.clientY / window.innerHeight) * 2 + 1;
+            });
+        }
         
         window.addEventListener('resize', () => {
             this.camera.aspect = window.innerWidth / window.innerHeight;
@@ -482,10 +521,11 @@ class ThreeScene {
         if (this.helmet) {
             const scrollProgress = Math.min(this.scrollY / (document.body.scrollHeight - window.innerHeight), 1);
             
-            // Strong cursor-based rotation
-            this.helmet.rotation.y = this.mouse.x * Math.PI * 0.4;
-            this.helmet.rotation.x = this.mouse.y * Math.PI * 0.25;
-            this.helmet.rotation.z = this.mouse.x * Math.PI * 0.15;
+            // Reduced rotation on mobile
+            const rotationMultiplier = isMobile ? 0.2 : 0.4;
+            this.helmet.rotation.y = this.mouse.x * Math.PI * rotationMultiplier;
+            this.helmet.rotation.x = this.mouse.y * Math.PI * (rotationMultiplier * 0.625);
+            this.helmet.rotation.z = this.mouse.x * Math.PI * (rotationMultiplier * 0.375);
             
             // Position based on scroll
             this.helmet.position.y = Math.sin(scrollProgress * Math.PI * 4) * 2;
@@ -499,23 +539,30 @@ class ThreeScene {
             const baseScale = this.helmet.userData.baseScale || 1;
             this.helmet.scale.set(scale * baseScale, scale * baseScale, scale * baseScale);
             
-            // Tilt based on mouse
-            const tiltX = this.mouse.y * 0.08;
-            const tiltY = this.mouse.x * 0.08;
-            this.helmet.position.x = 4 + tiltY * 2.5;
-            this.helmet.position.y += tiltX * 2.5;
+            // Tilt based on mouse - adjusted for mobile
+            if (!isMobile) {
+                const tiltX = this.mouse.y * 0.08;
+                const tiltY = this.mouse.x * 0.08;
+                this.helmet.position.x = 4 + tiltY * 2.5;
+                this.helmet.position.y += tiltX * 2.5;
+            }
         }
         
         // Animate particles
         if (this.particleSystem) {
-            this.particleSystem.rotation.y += 0.0005;
+            this.particleSystem.rotation.y += isMobile ? 0.0003 : 0.0005;
             this.particleSystem.rotation.x = this.mouse.y * 0.1;
             this.particleSystem.rotation.z = this.mouse.x * 0.05;
         }
         
-        // Camera movement
-        this.camera.position.x = 8 + this.mouse.x * 3;
-        this.camera.position.y = 2 + this.mouse.y * 3;
+        // Camera movement - adjusted for mobile
+        if (isMobile) {
+            this.camera.position.x = this.mouse.x * 1.5;
+            this.camera.position.y = 2 + this.mouse.y * 1.5;
+        } else {
+            this.camera.position.x = 8 + this.mouse.x * 3;
+            this.camera.position.y = 2 + this.mouse.y * 3;
+        }
         this.camera.lookAt(this.helmet ? this.helmet.position : new THREE.Vector3(0, 0, 0));
         
         this.renderer.render(this.scene, this.camera);
@@ -767,7 +814,11 @@ function addGlitchEffect() {
 window.addEventListener('load', () => {
     document.body.style.overflow = 'hidden';
     
-    new CustomCursor();
+    // Only initialize custom cursor on desktop
+    if (!isMobile && !isTablet) {
+        new CustomCursor();
+    }
+    
     new LoadingScreen();
     new ThreeScene();
     addGlitchEffect();
