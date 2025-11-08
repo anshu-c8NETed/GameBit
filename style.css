@@ -75,7 +75,7 @@ body::before {
     padding: 0 40px;
 }
 
-/* Three.js Canvas */
+/* Three.js Canvas - Mobile Optimized */
 #three-canvas {
     position: fixed;
     top: 0;
@@ -102,12 +102,19 @@ body::before {
     opacity: 0.2;
 }
 
-/* Custom Cursor */
+/* Custom Cursor - Desktop Only */
 .cursor {
     position: fixed;
     pointer-events: none;
     z-index: 9999;
     mix-blend-mode: difference;
+}
+
+/* Hide cursor on mobile/tablet */
+@media (max-width: 1024px), (hover: none) {
+    .cursor {
+        display: none !important;
+    }
 }
 
 .cursor-dot {
@@ -142,13 +149,6 @@ body::before {
     opacity: 0.3;
     filter: blur(5px);
     transition: all 0.2s ease;
-}
-
-a:hover ~ .cursor .cursor-dot,
-button:hover ~ .cursor .cursor-dot {
-    transform: translate(-50%, -50%) scale(2);
-    background: var(--cyber-pink);
-    box-shadow: 0 0 30px var(--cyber-pink);
 }
 
 /* Loading Screen */
@@ -1304,7 +1304,7 @@ footer {
     font-family: 'Orbitron', sans-serif;
 }
 
-/* Responsive */
+/* Responsive - Tablet */
 @media (max-width: 1024px) {
     .games-grid {
         grid-template-columns: 1fr;
@@ -1320,6 +1320,7 @@ footer {
     }
 }
 
+/* Responsive - Mobile */
 @media (max-width: 768px) {
     .nav-link {
         display: none;
@@ -1359,8 +1360,37 @@ footer {
     .scroll-indicator {
         display: none;
     }
+    
+    .nav-container {
+        padding: 15px 20px;
+    }
+    
+    .logo-text {
+        font-size: 22px;
+    }
+    
+    .section-header {
+        margin-bottom: 60px;
+    }
+    
+    #contact {
+        padding: 150px 20px;
+    }
+    
+    .footer-content {
+        gap: 50px;
+    }
+    
+    .mobile-menu-content {
+        padding: 30px 20px;
+    }
+    
+    .mobile-menu-header {
+        margin-bottom: 60px;
+    }
 }
 
+/* Responsive - Small Mobile */
 @media (max-width: 480px) {
     .tech-grid {
         grid-template-columns: 1fr;
@@ -1375,5 +1405,70 @@ footer {
     .btn-secondary {
         width: 100%;
         justify-content: center;
+    }
+    
+    .loading-text {
+        font-size: 11px;
+        letter-spacing: 1px;
+    }
+    
+    .loading-status {
+        display: none;
+    }
+    
+    .game-image {
+        height: 250px;
+    }
+    
+    .service-card,
+    .game-card {
+        padding: 30px 20px;
+    }
+    
+    .game-info {
+        padding: 30px 20px;
+    }
+    
+    .footer-social {
+        flex-wrap: wrap;
+    }
+}
+
+/* Mobile landscape adjustments */
+@media (max-width: 896px) and (orientation: landscape) {
+    .hero-section {
+        min-height: auto;
+        padding: 100px 20px 60px;
+    }
+    
+    .hero-stats {
+        margin-top: 40px;
+    }
+    
+    section {
+        padding: 80px 0;
+    }
+}
+
+/* Touch device optimizations */
+@media (hover: none) {
+    .cursor {
+        display: none !important;
+    }
+    
+    .btn-primary:active {
+        transform: scale(0.95);
+    }
+    
+    .btn-secondary:active {
+        transform: scale(0.95);
+    }
+    
+    .service-card:active {
+        transform: translateY(-5px);
+    }
+    
+    .game-card:active {
+        transform: translateY(-10px);
     }
 }
