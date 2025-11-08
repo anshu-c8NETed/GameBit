@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GameBit - Next-Gen Game Design Studio</title>
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Custom Cursor -->
+    <div class="cursor">
+        <div class="cursor-trail"></div>
+        <div class="cursor-dot"></div>
+        <div class="cursor-outline"></div>
+    </div>
+
+    <!-- Loading Screen -->
+    <div class="loading-screen">
+        <div class="loading-content">
+            <div class="glitch-logo" data-text="GAMEBIT">GAMEBIT</div>
+            <div class="loading-bar-container">
+                <div class="loading-bar">
+                    <div class="loading-progress"></div>
+                </div>
+                <div class="loading-text">
+                    <span class="loading-percent">0%</span>
+                    <span class="loading-status">INITIALIZING SYSTEMS...</span>
+                </div>
+            </div>
+            <div class="loading-grid"></div>
+        </div>
+    </div>
+
+    <!-- Three.js Canvas -->
+    <canvas id="three-canvas"></canvas>
+
+    <!-- Cyberpunk Grid Background -->
+    <div class="cyber-grid"></div>
+
+    <!-- Navigation -->
+    <nav id="nav">
+        <div class="nav-container">
+            <a href="#home" class="logo-text glitch" data-text="GAMEBIT">
+                <span class="logo-icon">▶</span>
+                GAMEBIT
+            </a>
+            <div class="nav-right">
+                <a href="#services" class="nav-link" data-text="SERVICES">SERVICES</a>
+                <a href="#games" class="nav-link" data-text="GAMES">GAMES</a>
+                <a href="#tech" class="nav-link" data-text="TECH">TECH</a>
+                <a href="#contact" class="nav-link" data-text="CONTACT">CONTACT</a>
+                <button class="menu-toggle">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+        </div>
+        <div class="nav-scanline"></div>
+    </nav>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu-overlay">
+        <div class="mobile-menu-content">
+            <div class="mobile-menu-header">
+                <div class="logo-text glitch" data-text="GAMEBIT">GAMEBIT</div>
+                <button class="mobile-menu-close">
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+            <nav class="mobile-nav">
+                <a href="#home" class="mobile-nav-link"><span>01</span>HOME</a>
+                <a href="#services" class="mobile-nav-link"><span>02</span>SERVICES</a>
+                <a href="#games" class="mobile-nav-link"><span>03</span>GAMES</a>
+                <a href="#tech" class="mobile-nav-link"><span>04</span>TECH</a>
+                <a href="#contact" class="mobile-nav-link"><span>05</span>CONTACT</a>
+            </nav>
+        </div>
+    </div>
+
+    <!-- ADD THIS ATTRIBUTE: data-scroll-container -->
+    <div id="smooth-wrapper" data-scroll-container>
+        <!-- Hero Section -->
+        <section id="home" class="hero-section" data-scroll-section>
+            <div class="hero-content">
+                <div class="hero-label">
+                    <span class="terminal-text">NEXT-GEN GAME DESIGN STUDIO</span>
+                </div>
+                
+                <h1 class="hero-title">
+                    <div class="title-line">
+                        <span class="word">CRAFTING</span>
+                    </div>
+                    <div class="title-line">
+                        <span class="word cyber-gradient">IMMERSIVE</span>
+                    </div>
+                    <div class="title-line">
+                        <span class="word">GAMING</span>
+                    </div>
+                    <div class="title-line">
+                        <span class="word">WORLDS</span>
+                    </div>
+                </h1>
+                
+                <p class="hero-description">
+                    Award-winning game studio specializing in AAA game development, 
+                    VR/AR experiences, and cutting-edge interactive entertainment.
+                </p>
+                
+                <div class="hero-cta">
+                    <a href="#games" class="btn-primary">
+                        <span class="btn-text">EXPLORE GAMES</span>
+                        <span class="btn-icon"><i class="ri-gamepad-line"></i></span>
+                        <span class="btn-glow"></span>
+                    </a>
+                    <a href="#contact" class="btn-secondary">
+                        <span>START PROJECT</span>
+                        <i class="ri-arrow-right-line"></i>
+                    </a>
+                </div>
+
+                <div class="hero-stats">
+                    <div class="stat-box">
+                        <div class="stat-number" data-target="150">150+</div>
+                        <div class="stat-label">GAMES SHIPPED</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-number" data-target="50">50M+</div>
+                        <div class="stat-label">PLAYERS WORLDWIDE</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-number" data-target="25">25+</div>
+                        <div class="stat-label">AWARDS WON</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="scroll-indicator">
+                <div class="scroll-line"></div>
+                <span>SCROLL</span>
+            </div>
+        </section>
+
+        <!-- Services Section -->
+        <section id="services" data-scroll-section>
+            <div class="container">
+                <div class="section-header" data-scroll data-scroll-speed="1">
+                    <span class="section-label">// OUR EXPERTISE</span>
+                    <h2 class="section-title">
+                        <span class="line">GAME DEVELOPMENT</span>
+                        <span class="line cyber-gradient">SERVICES</span>
+                    </h2>
+                </div>
+                
+                <div class="services-grid">
+                    <div class="service-card" data-service="01" data-scroll data-scroll-speed="0.8">
+                        <div class="service-bg"></div>
+                        <div class="service-content">
+                            <div class="service-number">01</div>
+                            <div class="service-icon">
+                                <i class="ri-gamepad-line"></i>
+                            </div>
+                            <h3>AAA GAME DEVELOPMENT</h3>
+                            <p>Full-cycle development of high-budget games with cutting-edge graphics, 
+                            complex mechanics, and immersive storytelling.</p>
+                            <div class="service-tech">
+                                <span>Unreal Engine</span>
+                                <span>Unity</span>
+                                <span>Custom Engines</span>
+                            </div>
+                        </div>
+                        <div class="card-glow"></div>
+                    </div>
+
+                    <div class="service-card" data-service="02" data-scroll data-scroll-speed="1.2">
+                        <div class="service-bg"></div>
+                        <div class="service-content">
+                            <div class="service-number">02</div>
+                            <div class="service-icon">
+                                <i class="ri-vip-crown-line"></i>
+                            </div>
+                            <h3>VR/AR EXPERIENCES</h3>
+                            <p>Pushing boundaries with virtual and augmented reality gaming experiences 
+                            that blur the line between digital and physical worlds.</p>
+                            <div class="service-tech">
+                                <span>Meta Quest</span>
+                                <span>PSVR2</span>
+                                <span>ARKit</span>
+                            </div>
+                        </div>
+                        <div class="card-glow"></div>
+                    </div>
+
+                    <div class="service-card" data-service="03" data-scroll data-scroll-speed="1.5">
+                        <div class="service-bg"></div>
+                        <div class="service-content">
+                            <div class="service-number">03</div>
+                            <div class="service-icon">
+                                <i class="ri-rocket-line"></i>
+                            </div>
+                            <h3>GAME ENGINE TECH</h3>
+                            <p>Custom game engine development, optimization, and technical consulting 
+                            for studios pushing the limits of real-time graphics.</p>
+                            <div class="service-tech">
+                                <span>C++</span>
+                                <span>Vulkan</span>
+                                <span>DirectX</span>
+                            </div>
+                        </div>
+                        <div class="card-glow"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Games Showcase -->
+        <section id="games" data-scroll-section>
+            <div class="container">
+                <div class="section-header" data-scroll data-scroll-speed="1">
+                    <span class="section-label">// PORTFOLIO</span>
+                    <h2 class="section-title">
+                        <span class="line">FEATURED</span>
+                        <span class="line cyber-gradient">GAMES</span>
+                    </h2>
+                </div>
+
+                <div class="games-grid">
+                    <div class="game-card" data-scroll data-scroll-speed="0.8">
+                        <div class="game-image">
+                            <img src="https://i.pinimg.com/1200x/5c/7a/6d/5c7a6d954a09200b1529a17779e5db01.jpg" alt="Neon Uprising">
+                            <div class="game-overlay">
+                                <a href="#" class="game-play-btn">
+                                    <i class="ri-play-fill"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="game-info">
+                            <div class="game-meta">
+                                <span class="game-genre">ACTION RPG</span>
+                                <span class="game-platform">PC • PS5 • XBOX</span>
+                            </div>
+                            <h3>NEON UPRISING</h3>
+                            <p>Cyberpunk action RPG set in a dystopian megacity with dynamic combat 
+                            and branching storylines.</p>
+                            <div class="game-stats">
+                                <span><i class="ri-user-line"></i> 5M+ Players</span>
+                                <span><i class="ri-star-fill"></i> 9.2/10</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="game-card" data-scroll data-scroll-speed="1.2">
+                        <div class="game-image">
+                            <img src="https://i.pinimg.com/1200x/ca/05/3e/ca053ec7b45253f50f4c5cc8ab257b26.jpg" alt="Quantum Breach">
+                            <div class="game-overlay">
+                                <a href="#" class="game-play-btn">
+                                    <i class="ri-play-fill"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="game-info">
+                            <div class="game-meta">
+                                <span class="game-genre">FPS</span>
+                                <span class="game-platform">PC • STEAM</span>
+                            </div>
+                            <h3>QUANTUM BREACH</h3>
+                            <p>Fast-paced tactical shooter featuring time manipulation mechanics and 
+                            competitive multiplayer modes.</p>
+                            <div class="game-stats">
+                                <span><i class="ri-user-line"></i> 3M+ Players</span>
+                                <span><i class="ri-star-fill"></i> 8.9/10</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="game-card" data-scroll data-scroll-speed="1.5">
+                        <div class="game-image">
+                            <img src="https://i.pinimg.com/736x/05/11/f7/0511f7152bd8e6c46485e217ebff9653.jpg" alt="Neural Chess">
+                            <div class="game-overlay">
+                                <a href="#" class="game-play-btn">
+                                    <i class="ri-play-fill"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="game-info">
+                            <div class="game-meta">
+                                <span class="game-genre">VR ADVENTURE</span>
+                                <span class="game-platform">META QUEST</span>
+                            </div>
+                            <h3>NEURAL NEXUS</h3>
+                            <p>Mind-bending VR puzzle adventure exploring the depths of human consciousness 
+                            and AI integration.</p>
+                            <div class="game-stats">
+                                <span><i class="ri-user-line"></i> 1M+ Players</span>
+                                <span><i class="ri-star-fill"></i> 9.5/10</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Tech Stack -->
+        <section id="tech" data-scroll-section>
+            <div class="container">
+                <div class="section-header" data-scroll data-scroll-speed="1">
+                    <span class="section-label">// TECHNOLOGY</span>
+                    <h2 class="section-title">
+                        <span class="line">POWERED BY</span>
+                        <span class="line cyber-gradient">CUTTING-EDGE TECH</span>
+                    </h2>
+                </div>
+
+                <div class="tech-grid">
+                    <div class="tech-card">
+                        <div class="tech-icon"><i class="ri-cpu-line"></i></div>
+                        <h4>UNREAL ENGINE 5</h4>
+                        <p>Nanite & Lumen technology</p>
+                    </div>
+                    <div class="tech-card">
+                        <div class="tech-icon"><i class="ri-cpu-line"></i></div>
+                        <h4>UNITY</h4>
+                        <p>Cross-platform development</p>
+                    </div>
+                    <div class="tech-card">
+                        <div class="tech-icon"><i class="ri-cpu-line"></i></div>
+                        <h4>CUSTOM ENGINES</h4>
+                        <p>Proprietary tech solutions</p>
+                    </div>
+                    <div class="tech-card">
+                        <div class="tech-icon"><i class="ri-braces-line"></i></div>
+                        <h4>C++ / C#</h4>
+                        <p>High-performance code</p>
+                    </div>
+                    <div class="tech-card">
+                        <div class="tech-icon"><i class="ri-palette-line"></i></div>
+                        <h4>BLENDER / MAYA</h4>
+                        <p>3D modeling & animation</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact" data-scroll-section>
+            <div class="contact-content" data-scroll data-scroll-speed="1">
+                <h2 class="contact-title">
+                    <span class="line">LET'S CREATE</span>
+                    <span class="line">THE NEXT</span>
+                    <span class="line cyber-gradient">GAMING LEGEND</span>
+                </h2>
+                <div class="contact-cta">
+                    <a href="mailto:studio@gamebit.com" class="btn-primary large">
+                        <span class="btn-text">START YOUR PROJECT</span>
+                        <span class="btn-icon"><i class="ri-mail-line"></i></span>
+                        <span class="btn-glow"></span>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer data-scroll-section>
+            <div class="container">
+                <div class="footer-content">
+                    <div class="footer-main">
+                        <div class="logo-text glitch" data-text="GAMEBIT">GAMEBIT</div>
+                        <p class="footer-tagline">Next-gen game development since 2020</p>
+                        <div class="footer-social">
+                            <a href="#" class="social-link"><i class="ri-twitter-x-line"></i></a>
+                            <a href="#" class="social-link"><i class="ri-discord-line"></i></a>
+                            <a href="#" class="social-link"><i class="ri-twitch-line"></i></a>
+                            <a href="#" class="social-link"><i class="ri-youtube-line"></i></a>
+                        </div>
+                    </div>
+                    <div class="footer-links">
+                        <div class="footer-col">
+                            <h4>SERVICES</h4>
+                            <a href="#">Game Development</a>
+                            <a href="#">VR/AR Experiences</a>
+                            <a href="#">Engine Tech</a>
+                            <a href="#">Consulting</a>
+                        </div>
+                        <div class="footer-col">
+                            <h4>COMPANY</h4>
+                            <a href="#">About Us</a>
+                            <a href="#">Careers</a>
+                            <a href="#">Press Kit</a>
+                            <a href="#">Contact</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="footer-bottom">
+                    <p>&copy; 2025 GameBit Studios. All rights reserved.</p>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/locomotive-scroll@4.1.4/dist/locomotive-scroll.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
