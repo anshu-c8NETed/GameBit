@@ -766,12 +766,17 @@ menuToggle.addEventListener('click', () => {
     mobileMenuOverlay.classList.add('active');
     document.body.style.overflow = 'hidden';
     
+    // Ensure all items are visible first
+    gsap.set('.mobile-nav-link', { opacity: 1 });
+    
+    // Then animate them in
     gsap.from('.mobile-nav-link', {
         x: -100,
         opacity: 0,
-        stagger: 0.07,
-        duration: 0.45,
-        ease: 'power3.out'
+        stagger: 0.06,
+        duration: 0.4,
+        ease: 'power3.out',
+        clearProps: 'all' // Clear all GSAP properties after animation
     });
 });
 
