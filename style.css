@@ -462,11 +462,16 @@ body::before {
     left: 0;
     width: 100%;
     height: 100vh;
-    background: rgba(10, 10, 15, 0.98);
-    z-index: 9998;
+    height: 100dvh; /* Dynamic viewport height for mobile browsers */
+    background: rgba(10, 10, 15, 0.99);
+    backdrop-filter: blur(10px);
+    z-index: 10001;
     opacity: 0;
     visibility: hidden;
     transition: all 0.5s ease;
+    overflow-y: auto;
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
 }
 
 .mobile-menu-overlay.active {
@@ -475,23 +480,26 @@ body::before {
 }
 
 .mobile-menu-content {
-    height: 100%;
+    min-height: 100vh;
+    min-height: 100dvh;
     display: flex;
     flex-direction: column;
-    padding: 40px;
+    padding: 25px 20px;
     position: relative;
+    justify-content: flex-start;
 }
 
 .mobile-menu-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 80px;
+    margin-bottom: 30px;
+    flex-shrink: 0;
 }
 
 .mobile-menu-close {
-    width: 60px;
-    height: 60px;
+    width: 50px;
+    height: 50px;
     border-radius: 8px;
     border: 2px solid var(--cyber-pink);
     background: none;
@@ -499,13 +507,14 @@ body::before {
     align-items: center;
     justify-content: center;
     flex-direction: column;
-    gap: 6px;
+    gap: 5px;
     cursor: pointer;
     transition: all 0.3s ease;
+    flex-shrink: 0;
 }
 
 .mobile-menu-close span {
-    width: 28px;
+    width: 24px;
     height: 2px;
     background: var(--cyber-pink);
     box-shadow: 0 0 10px var(--cyber-pink);
@@ -522,28 +531,33 @@ body::before {
 .mobile-nav {
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 12px;
     flex: 1;
+    padding-bottom: 20px;
 }
 
 .mobile-nav-link {
     display: flex;
     align-items: center;
-    gap: 30px;
-    padding: 25px 0;
+    gap: 18px;
+    padding: 16px 0;
     border-bottom: 1px solid rgba(0, 240, 255, 0.2);
     text-decoration: none;
     color: var(--text-primary);
     font-family: 'Orbitron', sans-serif;
-    font-size: clamp(28px, 5vw, 42px);
+    font-size: clamp(20px, 4.5vw, 32px);
     font-weight: 700;
-    letter-spacing: 3px;
+    letter-spacing: 2px;
     transition: all 0.3s ease;
+    opacity: 1;
+    will-change: transform, opacity;
 }
 
 .mobile-nav-link span {
-    font-size: 16px;
+    font-size: 13px;
     color: var(--text-secondary);
+    font-weight: 500;
+    opacity: 1;
 }
 
 .mobile-nav-link:hover {
@@ -1382,11 +1396,11 @@ footer {
     }
     
     .mobile-menu-content {
-        padding: 30px 20px;
+        padding: 20px 18px;
     }
     
     .mobile-menu-header {
-        margin-bottom: 60px;
+        margin-bottom: 25px;
     }
 }
 
@@ -1432,6 +1446,44 @@ footer {
     .footer-social {
         flex-wrap: wrap;
     }
+    
+    /* Mobile menu optimizations for small screens */
+    .mobile-menu-content {
+        padding: 18px 15px;
+    }
+    
+    .mobile-menu-header {
+        margin-bottom: 20px;
+    }
+    
+    .mobile-menu-header .logo-text {
+        font-size: 18px !important;
+    }
+    
+    .mobile-nav {
+        gap: 8px;
+        padding-bottom: 15px;
+    }
+    
+    .mobile-nav-link {
+        font-size: clamp(18px, 4.2vw, 26px);
+        padding: 14px 0;
+        gap: 15px;
+        letter-spacing: 1.5px;
+    }
+    
+    .mobile-nav-link span {
+        font-size: 11px;
+    }
+    
+    .mobile-menu-close {
+        width: 45px;
+        height: 45px;
+    }
+    
+    .mobile-menu-close span {
+        width: 20px;
+    }
 }
 
 /* Mobile landscape adjustments */
@@ -1470,5 +1522,40 @@ footer {
     
     .game-card:active {
         transform: translateY(-10px);
+    }
+}
+
+/* Extra small screens */
+@media (max-width: 375px) {
+    .mobile-menu-content {
+        padding: 15px 12px;
+    }
+    
+    .mobile-menu-header {
+        margin-bottom: 18px;
+    }
+    
+    .mobile-menu-header .logo-text {
+        font-size: 16px !important;
+    }
+    
+    .mobile-nav {
+        gap: 6px;
+    }
+    
+    .mobile-nav-link {
+        font-size: clamp(16px, 4vw, 22px);
+        padding: 12px 0;
+        gap: 12px;
+        letter-spacing: 1px;
+    }
+    
+    .mobile-nav-link span {
+        font-size: 10px;
+    }
+    
+    .mobile-menu-close {
+        width: 40px;
+        height: 40px;
     }
 }
